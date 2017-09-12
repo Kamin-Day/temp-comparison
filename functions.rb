@@ -6,13 +6,12 @@ require "date"
 
 
 
-
 def compareTemps(temps)
 	tempDifference = temps[0] - temps[1]
 
 	if tempDifference < 0 
 		return "Yesterday it was " + tempDifference.abs.round(3).to_s + " degrees colder at this time"
-	elsif tempDifference > 0
+	elsesif tempDifference > 0
 		return "Yesterday it was " + tempDifference.round(3).to_s + " degrees warmer at this time"
 	else
 		return "It is the same temperature now as it was this time yesterday"

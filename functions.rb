@@ -5,6 +5,16 @@ require 'open-uri'
 require "date"
 
 
+# def getZip()
+# 	puts "Enter a 5 digit postal code to continue fetching weather information"
+# 	zip = gets.chomp
+# 	if zip.length < 5 or zip.length > 5
+# 		puts "Invalid area code. Please enter a valid 5 digit area code.."
+# 		zip = gets.chomp
+# 	else
+# 		return zip
+# 	end
+# end
 
 def compareTemps(temps)
 	tempDifference = temps[0] - temps[1]
@@ -12,14 +22,14 @@ def compareTemps(temps)
 	if tempDifference < 0 
 		return "Yesterday it was " + tempDifference.abs.round(3).to_s + " degrees colder at this time"
 	elsesif tempDifference > 0
-		return "Yesterday it was " + tempDifference.round(3).to_s + " degrees warmer at this time"
+		return "Yesterdax`y it was " + tempDifference.round(3).to_s + " degrees warmer at this time"
 	else
 		return "It is the same temperature now as it was this time yesterday"
 	end			
 end
 
 def geoCode(postal)
-	url= "https://maps.googleapis.com/maps/api/geocode/json?address=" + postal + "&key=AIzaSyBZqs-MS-5WyI9s-eS2Bx3wEemC5gzlhqc"
+	url = "https://maps.googleapis.com/maps/api/geocode/json?address=" + postal + "&key=AIzaSyBZqs-MS-5WyI9s-eS2Bx3wEemC5gzlhqc"
 	uri = URI(url)
 	response = Net::HTTP.get(uri)
 	geoInfo = JSON.parse(response)
@@ -76,10 +86,17 @@ def getWeatherNow(lat, lng, timeToCompare)
 	end
 end
 
+#Asks user to input an area code in command line
+#Returns user input
+def gatherInput
+	puts "Enter a postal code to continue fetching weather information"
+	return gets.chomp
+end
 
+#Fetches Latitude and Longitute coordinates based off of user input.
+geoCode(gatherInput)
 
 #Asks for user input 
-puts "Enter a postal code to continue fetching weather information"
 areaCode = gets.chomp
 #Gathers Lat/Long information and captures time of request
 tempsToCompare = geoCode(areaCode)

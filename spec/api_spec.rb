@@ -16,6 +16,13 @@ describe "compareTemps" do
 		# Verify
 		expect(result).to eq("Yesterday it was 7.27 degrees warmer at this time")	
 	end
+	# it " gets user input. checks input to make sure an area code is of proper length and returns it"
+	
+	# 	result = getZip(22222)
+
+
+	# end	
+
 	# it "compares 2 temperatures and finds their difference displaying a decrease in temperatures." do
 	# 	# Exercise
 	# 	result = compareTemps([86.5,79.23])

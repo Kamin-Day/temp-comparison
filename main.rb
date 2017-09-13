@@ -3,81 +3,11 @@ require "pry"
 require 'json'
 require 'open-uri'
 require "date"
+require_relative "functions.rb"
 
 
 
-
-def compareTemps(temps)
-	tempDifference = temps[0] - temps[1]
-
-	if tempDifference < 0 
-		return "Yesterday it was " + tempDifference.abs.round(3).to_s + " degrees colder at this time"
-	elsif tempDifference > 0
-		return "Yesterday it was " + tempDifference.round(3).to_s + " degrees warmer at this time"
-	else
-		return "It is the same temperature now as it was this time yesterday"
-	end			
-end
-
-def geoCode(postal)
-	url= "https://maps.googleapis.com/maps/api/geocode/json?address=" + postal + "&key=AIzaSyBZqs-MS-5WyI9s-eS2Bx3wEemC5gzlhqc"
-	uri = URI(url)
-	response = Net::HTTP.get(uri)
-	geoInfo = JSON.parse(response)
-
-	lat = geoInfo["results"][0]["geometry"]["location"]["lat"].to_s
-	lng = geoInfo["results"][0]["geometry"]["location"]["lng"].to_s
-
-	timeToCompare = (Time.now.to_i.fdiv(3600).round) * 3600
-
-	yesterdaysTemp = getWeatherThen(lat, lng, timeToCompare)
-	todaysTemp = getWeatherNow(lat, lng, timeToCompare)
-
-	temps = [yesterdaysTemp,todaysTemp]
-	return temps
-end
-	
-# weatherInfo["hourly"]["data"] # array of hash Time
-# hour = (Time.now.to_i.fdiv(3600).round) * 3600
-
-def getWeatherThen(lat, lng, timeToCompare)
-	yesterday = (DateTime.now - 1).to_s
-	keyDS = "bdff756c7b33041b10dcef1de7bf1fff/"
-	exclude = "?exclude=currently,minutely,alerts,flags" #hourly"
-
-	url = "https://api.darksky.net/forecast/" + keyDS + lat + "," + lng + "," + yesterday + exclude
-	uri = URI(url)
-	response = Net::HTTP.get(uri)
-	weatherInfo = JSON.parse(response)
-
-	checkTime = timeToCompare - (3600 * 24)
-	weatherInfo["hourly"]["data"].each do |hour| 
-		if hour["time"] == checkTime
-			tempThen = hour["temperature"]
-			return tempThen
-		end
-	end
-end
-
-def getWeatherNow(lat, lng, timeToCompare)
-	dateTime = DateTime.now.to_s
-	keyDS = "bdff756c7b33041b10dcef1de7bf1fff/"
-	exclude = "?exclude=currently,minutely,alerts,flags" #hourly,
-
-	url = "https://api.darksky.net/forecast/" + keyDS + lat + "," + lng + "," + dateTime + exclude
-	uri = URI(url)
-	response = Net::HTTP.get(uri)
-	weatherInfo = JSON.parse(response)
-	
-	weatherInfo["hourly"]["data"].each do |hour| 
-		if hour["time"] == timeToCompare
-			tempNow = hour["temperature"]
-			return tempNow
-		end
-	end
-end
-
-
+prompt = 
 
 #Asks for user input 
 puts "Enter a postal code to continue fetching weather information"

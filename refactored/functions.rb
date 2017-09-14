@@ -51,17 +51,20 @@ def getCoordinates(geoCodeResponse)
 	coordinates[lng:] = getCodeResponse["results"][0]["geometry"]["location"]["lng"].to_s
 	return coordinates
 end
-def getLat(geoCodeResponse)
+
+# def getLat(geoCodeResponse)
 
 
-	return coordinates
-end
+# 	return coordinates
+# end
 
-def getLng(geoCodeResponse)
+# def getLng(geoCodeResponse)
 
 
-	return coordinates
-end
+# 	return coordinates
+# end
+
+
 # 	lat = geoInfo["results"][0]["geometry"]["location"]["lat"].to_s
 # 	lng = geoInfo["results"][0]["geometry"]["location"]["lng"].to_s
 
